@@ -8,14 +8,9 @@
 <!-- Generated from docs/policy/privacy.md. Edit that file, not this one. -->
 <style>
   :root {
-    --ink: #0e1024;
-    --raise: #171a35;
-    --hairline: #2a2e52;
-    --text: #e8e9f5;
-    --faint: #9ea4c9;
-    --cyan: #3fd3e6;
-    --peri: #a596ff;
-    --violet: #b97cff;
+    --ink: #0e1024; --raise: #171a35; --hairline: #2a2e52;
+    --text: #e8e9f5; --faint: #9ea4c9;
+    --cyan: #3fd3e6; --peri: #a596ff; --violet: #b97cff;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -31,7 +26,7 @@
     -webkit-font-smoothing: antialiased;
   }
   main { max-width: 42rem; margin: 0 auto; padding: 64px 0 96px; }
-  header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
   .mark { width: 52px; height: 52px; flex: none; }
   h1 {
     font-size: 2.1rem; line-height: 1.12; margin: 0; letter-spacing: -0.02em;
@@ -48,15 +43,11 @@
     background: var(--raise); border: 1px solid var(--hairline); border-radius: 16px;
     padding: 20px 22px; margin: 28px 0;
   }
-  .panel p:last-child { margin-bottom: 0; }
+  .panel h2 { margin-top: 0; }
+  .panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
   footer {
     margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--hairline);
     color: var(--faint); font-size: 0.9rem;
-  }
-  code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.9em; background: var(--raise); border: 1px solid var(--hairline);
-    border-radius: 5px; padding: 1px 5px;
   }
 </style>
 <style>
@@ -77,46 +68,49 @@
   <h1 style="font-size:1.9rem">Privacy policy</h1>
   <ul>
   <li><b>In force from:</b> 2026-10-03</li>
-  <li><b>Who this is about:</b> the household that operates Zero. There are no other users.</li>
+  <li><b>Applies to:</b> the Zero application and everyone who runs it</li>
   </ul>
   <h3>What Zero is</h3>
-  <p>Zero is a desktop application that runs on one machine in one household. It is not a service, it is not hosted, and it has no accounts to sign up for. Nobody operates it on anyone else&#x27;s behalf.</p>
-  <p>It exists to plan the operator&#x27;s own debt payoff. The only person whose financial data it holds is the operator and their household.</p>
-  <h3>What it collects</h3>
-  <p>Only what the operator enters or explicitly connects:</p>
+  <p>Zero is debt-payoff planning software that runs entirely on the user&#x27;s own device. It is single-tenant by design: each installation serves one household, holds only that household&#x27;s data, and has no connection to any other installation.</p>
+  <p>There is no Zero service. No servers are operated, no accounts are created, and no copy of anyone&#x27;s financial data is held anywhere outside the device the software runs on.</p>
+  <h3>What Zero collects</h3>
+  <p>Only what the user enters or explicitly connects:</p>
   <ul>
   <li>Debts: balance, interest rate, minimum payment, due date, credit limit, promotional terms.</li>
-  <li>Income and spending, either typed in or imported from statements the operator provides.</li>
-  <li>Transactions, balances, minimum payments, interest rates and due dates for accounts the operator chooses to connect through the account aggregator.</li>
+  <li>Income and spending, either entered directly or imported from statements the user supplies.</li>
+  <li>Transactions, balances, minimum payments, interest rates and due dates for accounts the user chooses to connect through the account aggregator.</li>
   </ul>
-  <p>It does not collect anything about anyone else, and it has no way to.</p>
+  <p>Zero collects no data about anyone other than its user, and has no mechanism to.</p>
   <h3>Where that data goes</h3>
-  <p><b>Nowhere, except where the operator sends it.</b></p>
+  <p><b>Nowhere, except where the user sends it.</b></p>
   <ul>
-  <li>It is stored on the operator&#x27;s own machine, in a directory outside the application&#x27;s source code, encrypted at rest.</li>
-  <li>It is never uploaded to the developer, who is also the operator. There is no server to upload to.</li>
-  <li>There is <b>no analytics, no telemetry, no crash reporting, and no third-party script</b> in the application.</li>
+  <li>It is stored on the user&#x27;s own device, in a directory outside the application&#x27;s program files, encrypted at rest.</li>
+  <li>It is never transmitted to the developer. There is no server to transmit it to.</li>
+  <li>Zero contains <b>no analytics, no telemetry, no crash reporting and no third-party scripts</b>.</li>
   </ul>
-  <p>Exactly three kinds of traffic leave the machine, and only these:</p>
+  <p>Exactly three kinds of traffic leave the device, and only these:</p>
   <ol>
-  <li><b>The account aggregator</b> (Plaid), for accounts the operator explicitly connects, under the operator&#x27;s own agreement with that company. Their privacy policy governs what they hold.</li>
-  <li><b>Institution websites</b>, where the operator signs in on the institution&#x27;s own page during linking. That page is not hosted or scripted by Zero, and Zero cannot read what is typed on it.</li>
+  <li><b>The account aggregator</b> (Plaid), for accounts the user explicitly connects, under the user&#x27;s own agreement with that company. Their privacy policy governs what they hold.</li>
+  <li><b>Institution websites</b>, where the user signs in on their bank&#x27;s own page during linking. That page is neither hosted nor scripted by Zero, and Zero cannot read what is typed on it.</li>
   <li><b>Font files</b> from a public CDN, which carry no personal data.</li>
   </ol>
   <h3>Consent</h3>
-  <p>Nothing is collected without an explicit act: typing a figure, importing a file, or completing an institution&#x27;s own linking flow. Connecting an account requires completing the aggregator&#x27;s consent screen, which states what will be shared. No account is connected by default, and no account is connected automatically.</p>
-  <p>A rate change reported by an aggregator is <b>shown for the operator to accept rather than applied</b>, because applying it silently would change the payoff plan around a number the operator never saw.</p>
+  <p>Nothing is collected without an explicit act: entering a figure, importing a file, or completing an institution&#x27;s own linking flow. Connecting an account requires completing the aggregator&#x27;s consent screen, which states what will be shared. No account is connected by default, and none is connected automatically.</p>
+  <p>A rate reported by an aggregator is <b>presented for review rather than applied</b>, because applying it silently would change the payoff plan around a figure the user never saw.</p>
   <h3>Credentials</h3>
-  <p><b>Zero never holds a bank or lender password.</b> Linking goes through the aggregator&#x27;s own flow. Aggregator keys and access tokens are held in the operating system&#x27;s credential store, never in Zero&#x27;s own files.</p>
-  <h3>Keeping and deleting</h3>
-  <p>See the separate retention policy. In short: data is kept until the operator deletes it, there is no background copy anywhere, and one command removes everything — disconnecting each institution at the aggregator first, so the connection stops as well as the file.</p>
+  <p><b>Zero never holds a bank or lender password.</b> Linking is performed entirely through the aggregator&#x27;s own flow. Aggregator keys and access tokens are held in the operating system&#x27;s credential store, never in Zero&#x27;s own files.</p>
+  <h3>Security</h3>
+  <p>Zero&#x27;s data is encrypted with a key derived from the user&#x27;s passphrase, which is not stored anywhere. Until the user unlocks the application, Zero cannot read its own files, and neither can any other process running on the device. Opening Zero requires two factors: that passphrase, and a time-based one-time code. No data is served and no institution can be connected until both are configured.</p>
+  <h3>Retention and deletion</h3>
+  <p>Data is retained until the user deletes it. There is no background copy, in any location. A single command disconnects every institution at the aggregator and deletes everything held locally — the connection is revoked as well as the files removed, so the institution stops sending data rather than Zero merely forgetting where it went.</p>
+  <p>The full schedule is set out in Zero&#x27;s data retention and disposal policy, available on request.</p>
   <h3>Rights</h3>
-  <p>As the only subject of this data is the operator, the usual rights of access, correction, export and erasure are exercised directly: the data is a set of files in a directory they control, the application can display and edit all of it, and one command deletes it.</p>
+  <p>Because the only subject of the data is the person running the software, the usual rights of access, correction, export and erasure are exercised directly: the data is a set of files in a directory under the user&#x27;s control, the application can display and edit all of it, and one command removes it.</p>
   <h3>Changes</h3>
-  <p>This document is versioned in the repository. Its history is the record of changes.</p>
+  <p>This policy is versioned alongside the application. Material changes are reflected here.</p>
   <h3>Contact</h3>
-  <p>Brandon McMillan — &#98;&#114;&#97;&#110;&#100;&#111;&#110;&#46;&#109;&#99;&#109;&#105;&#108;&#108;&#97;&#110;&#64;&#105;&#99;&#108;&#111;&#117;&#100;&#46;&#99;&#111;&#109;</p>
-  <footer>Zero &middot; a personal project, not a company &middot; <a href="index.html">Home</a></footer>
+  <p>Privacy and security enquiries, including from financial institutions, are handled at the address registered with Plaid for this application, and via the <a href="https://github.com/bcmcmill/zero-site/issues" rel="noopener">public repository</a> for anything that is not confidential.</p>
+  <footer>Zero &middot; <a href="index.html">Home</a></footer>
 </main>
 </body>
 </html>

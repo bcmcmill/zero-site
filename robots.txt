@@ -1,0 +1,6 @@
+# Indexing is fine; archiving snapshots of a compliance page is not useful to anyone.
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: archive.org_bot
+Disallow: /

@@ -3,26 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zero — a personal debt-payoff planner</title>
-<meta name="description" content="Zero is a single-user, local-first debt-payoff planner. It runs on one computer, keeps its data there encrypted, and never moves money.">
+<title>Zero — debt payoff planning that runs on your own device</title>
+<meta name="description" content="Zero is single-tenant debt-payoff planning software. It runs on your own device, stores its data there encrypted, and never moves money.">
+<meta name="robots" content="noarchive">
 <!--
-  This page exists because an account aggregator requires a public address for the application, and
-  shows it to people at their bank while they decide whether to share anything. So its job is to let
-  a stranger check who is asking: what the application is, who runs it, what it reads and why.
+  This page exists because the account aggregator requires a public address for the application and
+  shows it to people at their own institution while they decide whether to share anything. Its job
+  is to let a stranger establish what the software is, what it reads, and why.
 
-  No fonts, scripts, analytics or images are loaded from anywhere else. A page whose subject is "your
-  data goes nowhere" should not begin by telling three companies that you read it.
+  No fonts, scripts, analytics or images are loaded from anywhere else. A page whose subject is
+  "your data stays on your device" should not begin by telling three companies that you read it.
 -->
 <style>
   :root {
-    --ink: #0e1024;
-    --raise: #171a35;
-    --hairline: #2a2e52;
-    --text: #e8e9f5;
-    --faint: #9ea4c9;
-    --cyan: #3fd3e6;
-    --peri: #a596ff;
-    --violet: #b97cff;
+    --ink: #0e1024; --raise: #171a35; --hairline: #2a2e52;
+    --text: #e8e9f5; --faint: #9ea4c9;
+    --cyan: #3fd3e6; --peri: #a596ff; --violet: #b97cff;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -38,7 +34,7 @@
     -webkit-font-smoothing: antialiased;
   }
   main { max-width: 42rem; margin: 0 auto; padding: 64px 0 96px; }
-  header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
   .mark { width: 52px; height: 52px; flex: none; }
   h1 {
     font-size: 2.1rem; line-height: 1.12; margin: 0; letter-spacing: -0.02em;
@@ -55,15 +51,11 @@
     background: var(--raise); border: 1px solid var(--hairline); border-radius: 16px;
     padding: 20px 22px; margin: 28px 0;
   }
-  .panel p:last-child { margin-bottom: 0; }
+  .panel h2 { margin-top: 0; }
+  .panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
   footer {
     margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--hairline);
     color: var(--faint); font-size: 0.9rem;
-  }
-  code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.9em; background: var(--raise); border: 1px solid var(--hairline);
-    border-radius: 5px; padding: 1px 5px;
   }
 </style>
 </head>
@@ -82,72 +74,76 @@
     </svg>
     <h1>Zero</h1>
   </header>
-  <p class="sub">A personal debt-payoff planner. One household, one computer, no servers.</p>
+  <p class="sub">Debt-payoff planning that runs on your own device. No servers, no accounts, no
+    copies.</p>
 
-  <p>Zero works out what to pay on each debt this month so that the whole lot is gone as early as
-    possible, and shows what that costs in interest against paying the minimums. It is built for the
-    person who owns it and their family. It is not a service, there is nothing to sign up for, and
-    nobody else operates it.</p>
+  <p>Zero computes the payment to make against each debt in a given month so the whole balance
+    clears as early as possible, and states what that approach costs in interest compared with
+    paying minimums. It is desktop software, licensed per household and run locally.</p>
 
-  <h2>Why it asks for your bank data</h2>
-  <p>A payoff plan is only as current as the figures behind it. Typing a balance, a rate, a minimum
-    payment and a due date for every account, every month, is the reason people stop using tools like
-    this. So Zero can read them from the accounts you choose to connect:</p>
+  <h2>Architecture</h2>
+  <p>Zero is <b>single-tenant by design</b>. Each installation runs on one device, serves one
+    household, and holds only that household's data. There is no multi-tenant database, because
+    there is no database outside the device. There is no Zero service to sign in to.</p>
+  <p>This is a deliberate position rather than a limitation: financial data that is never
+    centralised cannot be exposed by centralised failure.</p>
+
+  <h2>Why Zero requests account data</h2>
+  <p>A payoff plan is only as accurate as the figures behind it, and the figures that drive it
+    change without notice. Zero can read them from the accounts the user connects:</p>
   <ul>
-    <li><b>Balances</b> — what is actually owed today.</li>
-    <li><b>Interest rates, minimum payments and due dates</b> — the numbers the plan is computed
-      from. These are the ones that matter: a rate you did not notice changing re-orders everything.</li>
-    <li><b>Transactions</b> — so spending, and the fourteen-day cash forecast, are real rather than
-      estimated.</li>
+    <li><b>Balances</b> — the amount actually outstanding.</li>
+    <li><b>Interest rates, minimum payments and due dates</b> — the inputs the plan is computed
+      from. A rate change that goes unnoticed re-orders the entire schedule.</li>
+    <li><b>Transactions</b> — so that spending analysis and the short-term cash forecast are
+      measured rather than estimated.</li>
   </ul>
-  <p>Connecting is done through <a href="https://plaid.com" rel="noopener">Plaid</a>, who fetch the
-    data from your institution on your behalf. You sign in on your own bank's page; Zero never sees
-    that page and never sees your banking password. What Plaid does with your information is governed
-    by their
+  <p>Account connections are made through <a href="https://plaid.com" rel="noopener">Plaid</a>,
+    which retrieves the data from the institution on the user's behalf. The user authenticates on
+    their institution's own page; Zero neither hosts nor scripts that page and never receives
+    banking credentials. Plaid's handling of that information is governed by their
     <a href="https://plaid.com/legal/#end-user-privacy-policy" rel="noopener">end user privacy
     policy</a>.</p>
 
   <div class="panel">
-    <h2 style="margin-top:0">What Zero does not do</h2>
+    <h2>What Zero does not do</h2>
     <ul>
-      <li><b>It never moves money.</b> No transfers, no payments, no trades. It tells you what to
-        pay; you pay it.</li>
-      <li><b>It has no servers.</b> Your data is stored on your own computer and sent nowhere. There
-        is no account, no cloud copy, and no analytics.</li>
-      <li><b>It never stores a banking credential.</b> Not the password, not a PIN. The access token
-        from Plaid lives in your operating system's credential store.</li>
+      <li><b>It does not move money.</b> No transfers, no payments, no trades. Zero produces
+        payment instructions; the user executes them.</li>
+      <li><b>It operates no servers.</b> Data is stored on the user's device and transmitted
+        nowhere. No account, no cloud copy, no analytics, no telemetry.</li>
+      <li><b>It does not store banking credentials.</b> Access tokens issued by Plaid are held in
+        the operating system's credential store.</li>
     </ul>
   </div>
 
-  <h2>How your data is protected</h2>
+  <h2>Security</h2>
   <ul>
-    <li>The application listens only on your own machine's loopback address, and that is fixed when
-      it is built rather than configurable — so it cannot be exposed to a network by mistake.</li>
-    <li>Everything it stores is encrypted with a key derived from your passphrase, which is not kept
-      anywhere. Until you unlock it, Zero cannot read its own files, and neither can anything else
-      running on the computer.</li>
-    <li>Opening it needs two things: that passphrase, and a six-digit code from your authenticator
-      app. Nothing is served and no bank can be connected until both are set up.</li>
-    <li>One command disconnects every institution at Plaid and deletes everything — the connection
-      stops as well as the file.</li>
+    <li>The application binds to the local loopback interface only, and that address is fixed at
+      build time rather than configurable — so it cannot be exposed to a network by
+      misconfiguration.</li>
+    <li>Stored data is encrypted with a key derived from the user's passphrase, which is not
+      retained anywhere. Until the application is unlocked it cannot read its own files, and neither
+      can any other process on the device.</li>
+    <li>Access requires two factors: that passphrase and a time-based one-time code. No data is
+      served and no institution can be connected until both are configured.</li>
+    <li>A single command revokes every institution connection at the aggregator and deletes all
+      local data — the connection is revoked, not merely forgotten.</li>
+    <li>Dependencies are checked against a public vulnerability advisory database daily, and an
+      outstanding advisory fails the build.</li>
   </ul>
-  <p>The full detail is in the <a href="privacy.html">privacy policy</a>.</p>
+  <p>Further detail is in the <a href="privacy.html">privacy policy</a>. An information security
+    policy and a data retention and disposal policy are maintained and available on request.</p>
 
-  <h2>Who runs it</h2>
-  <p>Brandon McMillan, as the sole developer and the person whose data it holds.</p>
-  <p>For anything about this page or the application, open an issue on
-    <a href="https://github.com/bcmcmill/zero-site/issues" rel="noopener">the repository</a>.
-    For privacy or security, including from an institution, write to
-    <!--
-      Character-encoded rather than written out. It defeats a scraper that reads the page with a
-      regular expression, which is most of them; it does not defeat one that parses the HTML, and
-      saying otherwise would be pretending. The address registered with the aggregator is the
-      reliable route for an institution, and that one is not on a public page at all.
-    -->
-    <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#114;&#97;&#110;&#100;&#111;&#110;&#46;&#109;&#99;&#109;&#105;&#108;&#108;&#97;&#110;&#64;&#105;&#99;&#108;&#111;&#117;&#100;&#46;&#99;&#111;&#109;">&#98;&#114;&#97;&#110;&#100;&#111;&#110;&#46;&#109;&#99;&#109;&#105;&#108;&#108;&#97;&#110;&#64;&#105;&#99;&#108;&#111;&#117;&#100;&#46;&#99;&#111;&#109;</a>.</p>
+  <h2>Contact</h2>
+  <p>Privacy and security enquiries, including from financial institutions, are handled at the
+    address registered with Plaid for this application. For anything else, including questions about
+    this page, open an issue on
+    <a href="https://github.com/bcmcmill/zero-site/issues" rel="noopener">the public
+    repository</a>.</p>
 
   <footer>
-    Zero · a personal project, not a company · <a href="privacy.html">Privacy policy</a>
+    Zero &middot; <a href="privacy.html">Privacy policy</a>
   </footer>
 </main>
 </body>
